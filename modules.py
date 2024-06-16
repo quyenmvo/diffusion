@@ -47,6 +47,7 @@ class SelfAttention(nn.Module):
         )
 
     def forward(self, x):
+        print(x.shape)
         x = x.view(-1, self.channels, self.size * self.size).swapaxes(1, 2)
         print(x.shape)
         x_ln = self.ln(x)
