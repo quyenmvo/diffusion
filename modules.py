@@ -48,10 +48,15 @@ class SelfAttention(nn.Module):
 
     def forward(self, x):
         x = x.view(-1, self.channels, self.size * self.size).swapaxes(1, 2)
+        print(x.shape)
         x_ln = self.ln(x)
+        print(x.shape)
         attention_value, _ = self.mha(x_ln, x_ln, x_ln)
+        print(attention_value.shape)
         attention_value = attention_value + x
+        print(attention_value.shape)
         attention_value = self.ff_self(attention_value) + attention_value
+        print(attention_value.shape)
         return attention_value.swapaxes(2, 1).view(-1, self.channels, self.size, self.size)
 
 
@@ -96,8 +101,6 @@ class Down(nn.Module):
     def forward(self, x, t):
         x = self.maxpool_conv(x)
         emb = self.emb_layer(t)[:, :, None, None].repeat(1, 1, x.shape[-2], x.shape[-1])
-        print(x.shape)
-        print(self.emb_layer(t)[:, :, None, None].shape)
         return x + emb
 
 
@@ -235,9 +238,7 @@ class UNet_conditional(nn.Module):
 
         x1 = self.inc(x)
         x2 = self.down1(x1, t)
-        print(x2.shape)
         x2 = self.sa1(x2)
-        print(x2.shape)
         x3 = self.down2(x2, t)
         x3 = self.sa2(x3)
         x4 = self.down3(x3, t)
