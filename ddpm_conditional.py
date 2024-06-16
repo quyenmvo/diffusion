@@ -118,7 +118,7 @@ def launch():
     args.batch_size = 16
     args.image_size = 32
     args.num_classes = 10
-    args.dataset_path = r"cifar-10"
+    args.dataset_path = r"/kaggle/input/cifar-10/cifar-10"
     args.device = "cuda"
     args.lr = 3e-4
     train(args)
