@@ -235,7 +235,9 @@ class UNet_conditional(nn.Module):
 
         x1 = self.inc(x)
         x2 = self.down1(x1, t)
+        print(x2.shape)
         x2 = self.sa1(x2)
+        print(x2.shape)
         x3 = self.down2(x2, t)
         x3 = self.sa2(x3)
         x4 = self.down3(x3, t)
