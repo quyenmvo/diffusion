@@ -96,6 +96,8 @@ class Down(nn.Module):
     def forward(self, x, t):
         x = self.maxpool_conv(x)
         emb = self.emb_layer(t)[:, :, None, None].repeat(1, 1, x.shape[-2], x.shape[-1])
+        print(x.shape)
+        print(self.emb_layer(t)[:, :, None, None].shape)
         return x + emb
 
 
