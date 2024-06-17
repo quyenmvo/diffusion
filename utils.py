@@ -46,10 +46,10 @@ def get_data(args):
         torchvision.transforms.ToTensor(),
         torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
-    path = os.path.join(args.dataset_path, "data_batch_1")
+    path = os.path.join(args.parent_path, args.dataset_path, "data_batch_1")
     data_dict = unpickle(path)
     for i in range(2,6):
-        path = os.path.join(args.dataset_path, f"data_batch_{i}")
+        path = os.path.join(args.parent_path, args.dataset_path, f"data_batch_{i}")
         data_temp = unpickle(path)
         data_dict[b'data'] = np.concatenate((data_dict[b'data'], data_temp[b'data']), axis = 0)
         data_dict[b'labels'] = np.concatenate((data_dict[b'labels'], data_temp[b'labels']), axis = 0)
