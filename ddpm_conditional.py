@@ -75,7 +75,15 @@ def train(args):
     l = len(dataloader)
     ema = EMA(0.995)
     ema_model = copy.deepcopy(model).eval().requires_grad_(False)
-
+    if args.resume:
+        path = os.path.join(args.parent_path, args.resume)
+        ckpt_path = os.path.join(path, "ckpt.pt")
+        ckpt = torch.load(ckpt_path)
+        model.load_state_dict(ckpt)
+        ckpt_path = os.path.join(path, "ema_ckpt.pt")
+        ckpt = torch.load(ckpt_path)
+        ema_model.load_state_dict(ckpt)
+        
     for epoch in tqdm(range(args.epochs)):
         logging.info(f"Starting epoch {epoch}:")
         for i, (images, labels) in enumerate(dataloader):
@@ -117,7 +125,9 @@ def launch():
     args.batch_size = 16
     args.image_size = 32
     args.num_classes = 10
-    args.dataset_path = r"/kaggle/input/cifar-10/cifar-10"
+    args.parent_path = r"/kaggle/input/cifar-10"
+    args.dataset_path = r"cifar-10"
+    args.resume = "models/DDPM_conditional"
     args.device = "cuda"
     args.lr = 3e-4
     train(args)
