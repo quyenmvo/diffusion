@@ -82,8 +82,8 @@ def train(args):
         path = os.path.join(args.parent_path, args.resume, "ema_ckpt.pt")
         ckpt = torch.load(path)
         ema_model.load_state_dict(ckpt)
-        
-    for epoch in tqdm(range(args.epochs)):
+    pbar = tqdm(range(args.epochs))
+    for epoch in pbar:
         logging.info(f"Starting epoch {epoch}:")
         for i, (images, labels) in enumerate(dataloader):
             images = images.to(device)
@@ -99,7 +99,6 @@ def train(args):
             loss.backward()
             optimizer.step()
             ema.step_ema(ema_model, model)
-
             pbar.set_postfix(MSE=loss.item())
             logger.add_scalar("MSE", loss.item(), global_step=epoch * l + i)
 
