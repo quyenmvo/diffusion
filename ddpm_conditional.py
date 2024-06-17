@@ -76,10 +76,9 @@ def train(args):
     ema = EMA(0.995)
     ema_model = copy.deepcopy(model).eval().requires_grad_(False)
 
-    for epoch in range(args.epochs):
+    for epoch in tqdm(range(args.epochs)):
         logging.info(f"Starting epoch {epoch}:")
-        pbar = tqdm(dataloader)
-        for i, (images, labels) in enumerate(pbar):
+        for i, (images, labels) in enumerate(dataloader):
             images = images.to(device)
             labels = labels.to(device)
             t = diffusion.sample_timesteps(images.shape[0]).to(device)
