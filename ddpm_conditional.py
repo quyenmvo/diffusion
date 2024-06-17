@@ -142,5 +142,5 @@ if __name__ == '__main__':
     labels = list(range(10))*n
     y = torch.Tensor([i] * n).long().to(device)
     x = diffusion.sample(model, n, y)
-    save_image(x, os.path.join("results", args.run_name, "result.jpg")
+    save_image(x, os.path.join("results", args.run_name, "result.jpg"))
 
