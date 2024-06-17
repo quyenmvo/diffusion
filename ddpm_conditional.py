@@ -76,12 +76,11 @@ def train(args):
     ema = EMA(0.995)
     ema_model = copy.deepcopy(model).eval().requires_grad_(False)
     if args.resume:
-        path = os.path.join(args.parent_path, args.resume)
-        ckpt_path = os.path.join(path, "ckpt.pt")
-        ckpt = torch.load(ckpt_path)
+        path = os.path.join(args.parent_path, args.resume, "ckpt.pt")
+        ckpt = torch.load(path)
         model.load_state_dict(ckpt)
-        ckpt_path = os.path.join(path, "ema_ckpt.pt")
-        ckpt = torch.load(ckpt_path)
+        path = os.path.join(args.parent_path, args.resume, "ema_ckpt.pt")
+        ckpt = torch.load(path)
         ema_model.load_state_dict(ckpt)
         
     for epoch in tqdm(range(args.epochs)):
@@ -140,8 +139,8 @@ if __name__ == '__main__':
     model.load_state_dict(ckpt)
     diffusion = Diffusion(img_size=32, device=device)
     n = 8
-    for i in range(10):
-        y = torch.Tensor([i] * n).long().to(device)
-        x = diffusion.sample(model, n, y)
-        plot_images(x)
+    labels = list(range(10))*n
+    y = torch.Tensor([i] * n).long().to(device)
+    x = diffusion.sample(model, n, y)
+    save_image(x, os.path.join("results", args.run_name, "result.jpg")
 
