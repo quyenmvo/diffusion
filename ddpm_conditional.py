@@ -138,7 +138,7 @@ if __name__ == '__main__':
     model.load_state_dict(ckpt)
     diffusion = Diffusion(img_size=32, device=device)
     n = 8
-    labels = torch.tensor(list(range(10))*n)
+    labels = torch.tensor(list(range(10))*n).to(device)
     x = diffusion.sample(model, 10*n, labels)
     save_image(x, os.path.join("results", args.run_name, "result.jpg"))
     ckpt = torch.load("/kaggle/input/cifar-10/models/DDPM_conditional/ema_ckpt.pt")
