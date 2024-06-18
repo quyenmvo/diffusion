@@ -140,10 +140,10 @@ if __name__ == '__main__':
     n = 8
     labels = torch.tensor(list(range(10))*n).to(device)
     x = diffusion.sample(model, 10*n, labels)
-    save_images(x, os.path.join("results", args.run_name, "result.jpg"))
+    save_images(x, os.path.join("results", "DDPM_conditional", "result.jpg"))
     ckpt = torch.load("/kaggle/input/cifar-10/models/DDPM_conditional/ema_ckpt.pt")
     model.load_state_dict(ckpt)
     x = diffusion.sample(model, 10*n, labels)
-    save_images(x, os.path.join("results", args.run_name, "ema_result.jpg"))
+    save_images(x, os.path.join("results", "DDPM_conditional", "ema_result.jpg"))
     
 
