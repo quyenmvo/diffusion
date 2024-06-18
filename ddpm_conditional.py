@@ -131,7 +131,7 @@ def launch():
     train(args)
 
 if __name__ == '__main__':
-    # launch()
+    launch()
     device = "cuda"
     model = UNet_conditional(num_classes=10).to(device)
     ckpt = torch.load("/kaggle/input/cifar-10/models/DDPM_conditional/ckpt.pt")
