@@ -131,14 +131,14 @@ def launch():
     train(args)
 
 if __name__ == '__main__':
-    launch()
+    # launch()
     device = "cuda"
     model = UNet_conditional(num_classes=10).to(device)
     ckpt = torch.load("./models/DDPM_conditional/ckpt.pt")
     model.load_state_dict(ckpt)
     diffusion = Diffusion(img_size=32, device=device)
     n = 8
-    labels = list(range(10))*n
+    labels = torch.tensor(list(range(10))*n)
     x = diffusion.sample(model, 10*n, labels)
     save_image(x, os.path.join("results", args.run_name, "result.jpg"))
     ckpt = torch.load("./models/DDPM_conditional/ema_ckpt.pt")
