@@ -141,4 +141,9 @@ if __name__ == '__main__':
     labels = list(range(10))*n
     x = diffusion.sample(model, 10*n, labels)
     save_image(x, os.path.join("results", args.run_name, "result.jpg"))
+    ckpt = torch.load("./models/DDPM_conditional/ema_ckpt.pt")
+    model.load_state_dict(ckpt)
+    x = diffusion.sample(model, 10*n, labels)
+    save_image(x, os.path.join("results", args.run_name, "ema_result.jpg"))
+    
 
