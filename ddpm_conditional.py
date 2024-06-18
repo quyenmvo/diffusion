@@ -134,14 +134,14 @@ if __name__ == '__main__':
     launch()
     device = "cuda"
     model = UNet_conditional(num_classes=10).to(device)
-    ckpt = torch.load("/kaggle/input/cifar-10/models/DDPM_conditional/ckpt.pt")
+    ckpt = torch.load("./models/DDPM_conditional/ckpt.pt")
     model.load_state_dict(ckpt)
     diffusion = Diffusion(img_size=32, device=device)
     n = 8
     labels = torch.tensor(list(range(10))*n).to(device)
     x = diffusion.sample(model, 10*n, labels)
     save_images(x, "result.jpg")
-    ckpt = torch.load("/kaggle/input/cifar-10/models/DDPM_conditional/ema_ckpt.pt")
+    ckpt = torch.load("./models/DDPM_conditional/ema_ckpt.pt")
     model.load_state_dict(ckpt)
     x = diffusion.sample(model, 10*n, labels)
     save_images(x, "ema_result.jpg")
