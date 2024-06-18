@@ -139,7 +139,6 @@ if __name__ == '__main__':
     diffusion = Diffusion(img_size=32, device=device)
     n = 8
     labels = list(range(10))*n
-    y = torch.Tensor([i] * n).long().to(device)
-    x = diffusion.sample(model, n, y)
+    x = diffusion.sample(model, 10*n, labels)
     save_image(x, os.path.join("results", args.run_name, "result.jpg"))
 
